@@ -3,9 +3,8 @@ package credential
 import (
 	"encoding/json"
 	"fmt"
-	"golang/util"
-	"golang/util/yeta/cache"
-	errord "golang/util/yeta/error"
+	"github.com/faryoo/yeta/cache"
+	"github.com/faryoo/yeta/util"
 	"sync"
 	"time"
 )
@@ -64,7 +63,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 		AppSecret: ak.AppSecret,
 	}
 	// cache失效，从微信服务器获取
-	var resData *errord.ResData
+	var resData *util.ResData
 	resData, err = GetTokenFromServer(&data)
 	if err != nil {
 		return
@@ -83,10 +82,10 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 }
 
 // GetTokenFromServer 强制从微信服务器获取token
-func GetTokenFromServer(data *reqdata) (resAccessToken *errord.ResData, err error) {
+func GetTokenFromServer(data *reqdata) (resAccessToken *util.ResData, err error) {
 	var body []byte
 
-	body, err = util.HTTPPost(workAccessTokenURL, data)
+	body, err = util.PostJSON(workAccessTokenURL, data)
 	if err != nil {
 		return
 	}

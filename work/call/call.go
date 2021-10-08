@@ -3,9 +3,8 @@ package call
 import (
 	"encoding/json"
 	"fmt"
-	"golang/util"
-	"golang/util/yeta/context"
-	error2 "golang/util/yeta/error"
+	"github.com/faryoo/yeta/util"
+	"github.com/faryoo/yeta/work/context"
 )
 
 type Call struct {
@@ -33,7 +32,7 @@ func NewCall(context *context.Context) *Call {
 }
 
 // CallOut 设置按钮
-func (call *Call) CallOut(reqCall *ReqCall) (*error2.ResData, error) {
+func (call *Call) CallOut(reqCall *ReqCall) (*util.ResData, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
 		return nil, err
@@ -45,7 +44,7 @@ func (call *Call) CallOut(reqCall *ReqCall) (*error2.ResData, error) {
 	if err != nil {
 		return nil, err
 	}
-	var resdata error2.ResData
+	var resdata util.ResData
 	err = json.Unmarshal(response, &resdata)
 	return &resdata, nil
 }

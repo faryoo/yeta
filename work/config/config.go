@@ -1,7 +1,7 @@
 // Package config 企业微信config配置
 package config
 
-import "golang/util/yeta/cache"
+import "github.com/faryoo/yeta/cache"
 
 // Config for 企业微信
 type Config struct {
