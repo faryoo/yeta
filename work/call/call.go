@@ -11,10 +11,9 @@ type Call struct {
 	*context.Context
 }
 
-// reqMenu 设置菜单请求数据
-
 const (
 	callOutURL   = "https://www.xfyeta.com/openapi/outbound/v1/task/callout"
+	queryURL     = "https://www.xfyeta.com/openapi/config/v1/query"
 	createURL    = "https://www.xfyeta.com/openapi/outbound/v1/task/create"
 	insertURL    = "https://www.xfyeta.com/openapi/outbound/v1/task/insert"
 	startURL     = "https://www.xfyeta.com/openapi/outbound/v1/task/start"
@@ -45,6 +44,25 @@ func (call *Call) CallOut(reqCall *ReqCallOut) (*ResCallOut, error) {
 	}
 	var resdata ResCallOut
 	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// Query Create Out 设置按钮
+func (call *Call) Query(reqCall *ReqQuery) (*ResQuery, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", queryURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata ResQuery
+	err = json.Unmarshal(response, &resdata)
+
 	return &resdata, nil
 }
 

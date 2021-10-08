@@ -5,47 +5,58 @@ type CommonError struct {
 	Message string `json:"message"`
 }
 
-type T struct {
+type ResQuery struct {
 	CommonError
-	Result struct {
-		Urls       []interface{} `json:"urls"`
-		RobotTotal int           `json:"robotTotal"`
-		Voices     []struct {
-			Code      string `json:"code"`
-			Name      string `json:"name"`
-			VoiceCode string `json:"voice_code"`
-			VoiceName string `json:"voice_name"`
-		} `json:"voices"`
-		Robots []struct {
-			CallColumn  []string    `json:"call_column"`
-			CreateName  interface{} `json:"create_name"`
-			CreatePhone interface{} `json:"create_phone"`
-			Deleted     int         `json:"deleted"`
-			RobotId     string      `json:"robot_id"`
-			RobotName   string      `json:"robot_name"`
-			RobotUuid   string      `json:"robot_uuid"`
-			Status      int         `json:"status"`
-			TimeCreate  int64       `json:"time_create"`
-			TimeUpdate  int64       `json:"time_update"`
-			Type        int         `json:"type"`
-		} `json:"robots"`
-		Lines []struct {
-			Concurrents        int         `json:"concurrents"`
-			Expired            int         `json:"expired"`
-			LineNum            string      `json:"line_num"`
-			RealExpirationTime int64       `json:"real_expiration_time"`
-			Status             int         `json:"status"`
-			TimeApply          interface{} `json:"time_apply"`
-			TimeExpire         int         `json:"time_expire"`
-			TimeWork           []string    `json:"time_work"`
-		} `json:"lines"`
-	} `json:"result"`
+	Result Query `json:"result"`
+}
+
+type Query struct {
+	Urls       []Urls   `json:"urls"`
+	RobotTotal int      `json:"robotTotal"`
+	Voices     []Voices `json:"voices"`
+	Robots     []Robots `json:"robots"`
+	Lines      []Lines  `json:"lines"`
+}
+type Urls struct {
+	Url       string `json:"url"`
+	UrlModule string `json:"url_module"`
+}
+type Voices struct {
+	Code      string `json:"code"`
+	Name      string `json:"name"`
+	VoiceCode string `json:"voice_code"`
+	VoiceName string `json:"voice_name"`
+}
+
+type Robots struct {
+	CallColumn  []string    `json:"call_column"`
+	CreateName  interface{} `json:"create_name"`
+	CreatePhone interface{} `json:"create_phone"`
+	Deleted     int         `json:"deleted"`
+	RobotId     string      `json:"robot_id"`
+	RobotName   string      `json:"robot_name"`
+	RobotUuid   string      `json:"robot_uuid"`
+	Status      int         `json:"status"`
+	TimeCreate  int64       `json:"time_create"`
+	TimeUpdate  int64       `json:"time_update"`
+	Type        int         `json:"type"`
+}
+type Lines struct {
+	Concurrents        int         `json:"concurrents"`
+	Expired            int         `json:"expired"`
+	LineNum            string      `json:"line_num"`
+	RealExpirationTime int64       `json:"real_expiration_time"`
+	Status             int         `json:"status"`
+	TimeApply          interface{} `json:"time_apply"`
+	TimeExpire         int         `json:"time_expire"`
+	TimeWork           []string    `json:"time_work"`
 }
 
 type ResCallOut struct {
 	CommonError
 	Result Out `json:"result"`
 }
+
 type Out struct {
 	Total       int   `json:"total"`
 	TaskDataIds []int `json:"task_data_ids"`
@@ -59,22 +70,27 @@ type ResCreate struct {
 type Create struct {
 	TaskId string `json:"task_id"`
 }
+
 type ResInsert struct {
 	CommonError
 	Result Insert `json:"result"`
 }
+
 type Insert struct {
 	Total       int   `json:"total"`
 	TaskDataIds []int `json:"task_data_ids"`
 }
+
 type ResTaskQuery struct {
 	CommonError
 	Result TaskQuery `json:"result"`
 }
+
 type TaskQuery struct {
 	TotalRows int             `json:"total_rows"`
 	Rows      []TaskQueryRows `json:"rows"`
 }
+
 type TaskQueryRows struct {
 	TaskID                string `json:"task_id"`
 	TaskName              string `json:"task_name"`
@@ -103,10 +119,12 @@ type TaskQueryRows struct {
 	ProcessThroughRate    int    `json:"process_through_rate"`
 	Remaining             int    `json:"remaining"`
 }
+
 type ResFailed struct {
 	CommonError
 	Result Failed `json:"result"`
 }
+
 type Failed struct {
 	Url []string `json:"url"`
 }
