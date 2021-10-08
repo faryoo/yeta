@@ -11,7 +11,7 @@ import (
 
 const (
 	// AccessTokenURL 企业微信获取access_token的接口
-	workAccessTokenURL = "https://www.xfyeta.com/openapi/oauth/v1/token?corpid=%s&corpsecret=%s"
+	yetaAccessTokenURL = "https://www.xfyeta.com/openapi/oauth/v1/token"
 	// CacheKeyWorkPrefix 企业微信cache key前缀
 	CacheKeyWorkPrefix = "goyeta_work_"
 )
@@ -85,7 +85,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 func GetTokenFromServer(data *reqdata) (resAccessToken *util.ResData, err error) {
 	var body []byte
 
-	body, err = util.PostJSON(workAccessTokenURL, data)
+	body, err = util.PostJSON(yetaAccessTokenURL, data)
 	if err != nil {
 		return
 	}
