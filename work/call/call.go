@@ -12,17 +12,16 @@ type Call struct {
 }
 
 // reqMenu 设置菜单请求数据
-type ReqCall struct {
-	LineNum    string     `json:"line_num,omitempty"`
-	RobotId    string     `json:"robot_id,omitempty"`
-	CallColumn []string   `json:"call_column"`
-	CallList   [][]string `json:"call_list"`
-	VoiceCode  string     `json:"voice_code"`
-	RobotSpeed int        `json:"robot_speed"`
-}
 
 const (
-	callOutURL = "https://www.xfyeta.com/openapi/outbound/v1/task/callout"
+	callOutURL   = "https://www.xfyeta.com/openapi/outbound/v1/task/callout"
+	createURL    = "https://www.xfyeta.com/openapi/outbound/v1/task/create"
+	insertURL    = "https://www.xfyeta.com/openapi/outbound/v1/task/insert"
+	startURL     = "https://www.xfyeta.com/openapi/outbound/v1/task/start"
+	pauseURL     = "https://www.xfyeta.com/openapi/outbound/v1/task/pause"
+	deleteURL    = "https://www.xfyeta.com/openapi/outbound/v1/task/delete"
+	taskQueryURL = "https://www.xfyeta.com/openapi/outbound/v1/task/query"
+	failedURL    = "https://www.xfyeta.com/openapi/download/v1/push/failed"
 )
 
 func NewCall(context *context.Context) *Call {
@@ -31,8 +30,8 @@ func NewCall(context *context.Context) *Call {
 	return call
 }
 
-// CallOut 设置按钮
-func (call *Call) CallOut(reqCall *ReqCall) (*util.ResData, error) {
+// Out 设置按钮
+func (call *Call) CallOut(reqCall *ReqCallOut) (*ResCallOut, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
 		return nil, err
@@ -44,7 +43,134 @@ func (call *Call) CallOut(reqCall *ReqCall) (*util.ResData, error) {
 	if err != nil {
 		return nil, err
 	}
-	var resdata util.ResData
+	var resdata ResCallOut
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// Create Out 设置按钮
+func (call *Call) Create(reqCall *ReqCreate) (*ResCreate, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", createURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata ResCreate
+	err = json.Unmarshal(response, &resdata)
+
+	return &resdata, nil
+}
+
+// Insert  设置按钮
+func (call *Call) Insert(reqCall *ReqInsert) (*ResInsert, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", insertURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata ResInsert
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// Start Insert  设置按钮
+func (call *Call) Start(reqCall *TaskID) (*CommonError, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", startURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata CommonError
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// Pause 设置按钮
+func (call *Call) Pause(reqCall *TaskID) (*CommonError, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", pauseURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata CommonError
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// Delete Pause 设置按钮
+func (call *Call) Delete(reqCall *TaskID) (*CommonError, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", deleteURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata CommonError
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// TaskQuery Pause 设置按钮
+func (call *Call) TaskQuery(reqCall *ReqTaskQuery) (*ResTaskQuery, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", taskQueryURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata ResTaskQuery
+	err = json.Unmarshal(response, &resdata)
+	return &resdata, nil
+}
+
+// TaskQuery Pause 设置按钮
+func (call *Call) Failed(reqCall *ReqFailed) (*ResFailed, error) {
+	accessToken, err := call.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	uri := fmt.Sprintf("%s?token=%s", failedURL, accessToken)
+
+	response, err := util.PostJSON(uri, reqCall)
+	if err != nil {
+		return nil, err
+	}
+	var resdata ResFailed
 	err = json.Unmarshal(response, &resdata)
 	return &resdata, nil
 }

@@ -12,9 +12,16 @@ import (
 const (
 	// AccessTokenURL 企业微信获取access_token的接口
 	yetaAccessTokenURL = "https://www.xfyeta.com/openapi/oauth/v1/token"
+	//yetaQueryURL = "https://www.xfyeta.com/openapi/config/v1/query"
 	// CacheKeyWorkPrefix 企业微信cache key前缀
 	CacheKeyWorkPrefix = "goyeta_work_"
 )
+
+type ResToken struct {
+	Code    int            `json:"code"`
+	Message string         `json:"message"`
+	Result  ResAccessToken `json:"result"`
+}
 
 // ResAccessToken struct
 type ResAccessToken struct {
@@ -63,14 +70,13 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 		AppSecret: ak.AppSecret,
 	}
 	// cache失效，从微信服务器获取
-	var resData *util.ResData
-	resData, err = GetTokenFromServer(&data)
+
+	resData, err := GetTokenFromServer(&data)
 	if err != nil {
 		return
 	}
-	j, _ := json.Marshal(resData.Result)
-	resAccessToken := new(ResAccessToken)
-	_ = json.Unmarshal(j, resAccessToken)
+
+	resAccessToken := resData.Result
 
 	expires := resAccessToken.TimeExpire - 1500
 	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.Token, time.Duration(expires)*time.Second)
@@ -78,11 +84,12 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 		return
 	}
 	accessToken = resAccessToken.Token
+	//go ak.GetQueryFromServer(accessToken)
 	return
 }
 
 // GetTokenFromServer 强制从微信服务器获取token
-func GetTokenFromServer(data *reqdata) (resAccessToken *util.ResData, err error) {
+func GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
 	var body []byte
 
 	body, err = util.PostJSON(yetaAccessTokenURL, data)
@@ -99,3 +106,31 @@ func GetTokenFromServer(data *reqdata) (resAccessToken *util.ResData, err error)
 	}
 	return
 }
+
+//func (ak *WorkAccessToken)GetQueryFromServer(token string)(){
+//	accessQueryCacheKey := fmt.Sprintf("%s_query_%s", ak.cacheKeyPrefix, ak.AppKey)
+//	type Query struct{
+//		Type int `json:"type"`
+//		PageSize int `json:"pageSize"`
+//		PageIndex int `json:"pageIndex"`
+//	}
+//
+//	query:= &Query{
+//		Type:      0,
+//	}
+//	uri := fmt.Sprintf("%s?token=%s", yetaQueryURL, token)
+//	var resQuery util.ResData
+//	body,err := util.PostJSON(uri,query)
+//	if err != nil {
+//		return
+//	}
+//	err = json.Unmarshal(body,&resQuery)
+//	if err != nil {
+//		return
+//	}
+//	queryString :=resQuery.Result.(string)
+//	err = ak.cache.Set(accessQueryCacheKey, queryString,-1)
+//	if err != nil {
+//		return
+//	}
+//}
