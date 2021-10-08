@@ -10,10 +10,8 @@ import (
 )
 
 const (
-	// AccessTokenURL 企业微信获取access_token的接口
+	// AccessTokenURL yeta获取access_token的接口
 	yetaAccessTokenURL = "https://www.xfyeta.com/openapi/oauth/v1/token"
-	//yetaQueryURL = "https://www.xfyeta.com/openapi/config/v1/query"
-	// CacheKeyWorkPrefix 企业微信cache key前缀
 	CacheKeyWorkPrefix = "goyeta_work_"
 )
 
@@ -33,7 +31,7 @@ type reqdata struct {
 	AppSecret string
 }
 
-// WorkAccessToken 企业微信AccessToken 获取
+// WorkAccessToken yeta_AccessToken 获取
 type WorkAccessToken struct {
 	AppKey          string
 	AppSecret       string
@@ -53,9 +51,9 @@ func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.C
 	}
 }
 
-// GetAccessToken 企业微信获取access_token,先从cache中获取，没有则从服务端获取
+// GetAccessToken yeta获取access_token,先从cache中获取，没有则从服务端获取
 func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
-	// 加上lock，是为了防止在并发获取token时，cache刚好失效，导致从微信服务器上获取到不同token
+	// 加上lock，是为了防止在并发获取token时，cache刚好失效，导致从yeta服务器上获取到不同token
 	ak.accessTokenLock.Lock()
 	defer ak.accessTokenLock.Unlock()
 	accessTokenCacheKey := fmt.Sprintf("%s_access_token_%s", ak.cacheKeyPrefix, ak.AppKey)
@@ -69,7 +67,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 		AppKey:    ak.AppKey,
 		AppSecret: ak.AppSecret,
 	}
-	// cache失效，从微信服务器获取
+	// cache失效，从yeta服务器获取
 
 	resData, err := GetTokenFromServer(&data)
 	if err != nil {
@@ -88,7 +86,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 	return
 }
 
-// GetTokenFromServer 强制从微信服务器获取token
+// GetTokenFromServer 强制从yeta服务器获取token
 func GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
 	var body []byte
 

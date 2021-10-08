@@ -29,7 +29,7 @@ func NewCall(context *context.Context) *Call {
 	return call
 }
 
-// Out 设置按钮
+// CallOut 直接外呼
 func (call *Call) CallOut(reqCall *ReqCallOut) (*ResCallOut, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -47,7 +47,7 @@ func (call *Call) CallOut(reqCall *ReqCallOut) (*ResCallOut, error) {
 	return &resdata, nil
 }
 
-// Query Create Out 设置按钮
+// Query 查询配置
 func (call *Call) Query(reqCall *ReqQuery) (*ResQuery, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -66,7 +66,7 @@ func (call *Call) Query(reqCall *ReqQuery) (*ResQuery, error) {
 	return &resdata, nil
 }
 
-// Create Out 设置按钮
+// Create 创建外呼任务
 func (call *Call) Create(reqCall *ReqCreate) (*ResCreate, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -85,7 +85,7 @@ func (call *Call) Create(reqCall *ReqCreate) (*ResCreate, error) {
 	return &resdata, nil
 }
 
-// Insert  设置按钮
+// Insert  提交任务数据
 func (call *Call) Insert(reqCall *ReqInsert) (*ResInsert, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -103,7 +103,7 @@ func (call *Call) Insert(reqCall *ReqInsert) (*ResInsert, error) {
 	return &resdata, nil
 }
 
-// Start Insert  设置按钮
+// Start 启动外呼任务
 func (call *Call) Start(reqCall *TaskID) (*CommonError, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -121,7 +121,7 @@ func (call *Call) Start(reqCall *TaskID) (*CommonError, error) {
 	return &resdata, nil
 }
 
-// Pause 设置按钮
+// Pause 暂停外呼任务
 func (call *Call) Pause(reqCall *TaskID) (*CommonError, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -139,7 +139,7 @@ func (call *Call) Pause(reqCall *TaskID) (*CommonError, error) {
 	return &resdata, nil
 }
 
-// Delete Pause 设置按钮
+// Delete 删除外呼任务
 func (call *Call) Delete(reqCall *TaskID) (*CommonError, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -157,7 +157,7 @@ func (call *Call) Delete(reqCall *TaskID) (*CommonError, error) {
 	return &resdata, nil
 }
 
-// TaskQuery Pause 设置按钮
+// TaskQuery 查询任务
 func (call *Call) TaskQuery(reqCall *ReqTaskQuery) (*ResTaskQuery, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {
@@ -175,7 +175,7 @@ func (call *Call) TaskQuery(reqCall *ReqTaskQuery) (*ResTaskQuery, error) {
 	return &resdata, nil
 }
 
-// TaskQuery Pause 设置按钮
+// Failed 查询推送失败记录
 func (call *Call) Failed(reqCall *ReqFailed) (*ResFailed, error) {
 	accessToken, err := call.GetAccessToken()
 	if err != nil {

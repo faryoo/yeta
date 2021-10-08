@@ -17,10 +17,12 @@ type Query struct {
 	Robots     []Robots `json:"robots"`
 	Lines      []Lines  `json:"lines"`
 }
+
 type Urls struct {
 	Url       string `json:"url"`
 	UrlModule string `json:"url_module"`
 }
+
 type Voices struct {
 	Code      string `json:"code"`
 	Name      string `json:"name"`

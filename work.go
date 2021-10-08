@@ -7,7 +7,7 @@ import (
 	"github.com/faryoo/yeta/work/context"
 )
 
-// Work 企业微信
+// Work yeta工作实例
 type Work struct {
 	ctx *context.Context
 }
