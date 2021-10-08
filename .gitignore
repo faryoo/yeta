@@ -1,0 +1,6 @@
+/.idea/
+/.scannerwork/
+deployment.yaml
+sonar-project.properties
+Dockerfile
+/config-release.yaml
