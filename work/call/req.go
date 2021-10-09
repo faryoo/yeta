@@ -35,6 +35,7 @@ type ReqInsert struct {
 type TaskID struct {
 	TaskId string `json:"task_id"`
 }
+
 type ReqTaskQuery struct {
 	TaskID         string `json:"task_id"`
 	TimeBegin      int    `json:"time_begin"`
