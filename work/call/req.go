@@ -36,8 +36,16 @@ type TaskID struct {
 	TaskId string `json:"task_id"`
 }
 type ReqTaskQuery struct {
-	TimeBegin     int  `json:"time_begin"`
-	ShowRemaining bool `json:"show_remaining"`
+	TaskID         string `json:"task_id"`
+	TimeBegin      int    `json:"time_begin"`
+	TimeEnd        int    `json:"time_end"`
+	TaskName       string `json:"task_name"`
+	TaskStatusList []int  `json:"task_status_list"`
+	PageSize       int    `json:"page_size"`
+	PageIndex      int    `json:"page_index"`
+	SortName       string `json:"sort_name"`
+	SortOrder      string `json:"sort_order"`
+	ShowRemaining  bool   `json:"show_remaining"`
 }
 
 type ReqFailed struct {
