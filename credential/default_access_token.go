@@ -3,10 +3,11 @@ package credential
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/faryoo/yeta/cache"
-	"github.com/faryoo/yeta/util"
 	"sync"
 	"time"
+
+	"github.com/faryoo/yeta/cache"
+	"github.com/faryoo/yeta/util"
 )
 
 const (

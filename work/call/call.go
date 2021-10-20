@@ -3,6 +3,7 @@ package call
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/faryoo/yeta/util"
 	"github.com/faryoo/yeta/work/context"
 )
@@ -44,7 +45,7 @@ func (call *Call) CallOut(reqCall *ReqCallOut) (*ResCallOut, error) {
 	}
 	var resdata ResCallOut
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Query 查询配置
@@ -63,7 +64,7 @@ func (call *Call) Query(reqCall *ReqQuery) (*ResQuery, error) {
 	var resdata ResQuery
 	err = json.Unmarshal(response, &resdata)
 
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Create 创建外呼任务
@@ -82,7 +83,7 @@ func (call *Call) Create(reqCall *ReqCreate) (*ResCreate, error) {
 	var resdata ResCreate
 	err = json.Unmarshal(response, &resdata)
 
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Insert  提交任务数据
@@ -100,7 +101,7 @@ func (call *Call) Insert(reqCall *ReqInsert) (*ResInsert, error) {
 	}
 	var resdata ResInsert
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Start 启动外呼任务
@@ -118,7 +119,7 @@ func (call *Call) Start(reqCall *TaskID) (*CommonError, error) {
 	}
 	var resdata CommonError
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Pause 暂停外呼任务
@@ -136,7 +137,7 @@ func (call *Call) Pause(reqCall *TaskID) (*CommonError, error) {
 	}
 	var resdata CommonError
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Delete 删除外呼任务
@@ -154,7 +155,7 @@ func (call *Call) Delete(reqCall *TaskID) (*CommonError, error) {
 	}
 	var resdata CommonError
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // TaskQuery 查询任务
@@ -172,7 +173,7 @@ func (call *Call) TaskQuery(reqCall *ReqTaskQuery) (*ResTaskQuery, error) {
 	}
 	var resdata ResTaskQuery
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }
 
 // Failed 查询推送失败记录
@@ -190,5 +191,5 @@ func (call *Call) Failed(reqCall *ReqFailed) (*ResFailed, error) {
 	}
 	var resdata ResFailed
 	err = json.Unmarshal(response, &resdata)
-	return &resdata, nil
+	return &resdata, err
 }

@@ -2,8 +2,9 @@ package cache
 
 import (
 	"encoding/json"
-	"github.com/gomodule/redigo/redis"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 // Redis .redis cache
