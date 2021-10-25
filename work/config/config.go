@@ -3,7 +3,7 @@ package config
 
 import "github.com/faryoo/yeta/cache"
 
-// Config for 企业微信
+// Config for 企业微信.
 type Config struct {
 	URL       string `json:"url"`
 	AppKey    string `json:"app_key"`    // corp_id

@@ -43,7 +43,7 @@ type WorkAccessToken struct {
 }
 
 // NewWorkAccessToken new WorkAccessToken
-func NewWorkAccessToken(url, corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
+func NewWorkAccessToken(url, voiceURL, corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
 	return &WorkAccessToken{
 		URL:             url,
 		AppKey:          corpID,
@@ -55,7 +55,8 @@ func NewWorkAccessToken(url, corpID, corpSecret, cacheKeyPrefix string, cache ca
 }
 
 // GetAccessToken yeta获取access_token,先从cache中获取，没有则从服务端获取
-func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
+func (ak *WorkAccessToken) GetAccessToken() (string, error) {
+	var accessToken string
 	// 加上lock，是为了防止在并发获取token时，cache刚好失效，导致从yeta服务器上获取到不同token
 	ak.accessTokenLock.Lock()
 	defer ak.accessTokenLock.Unlock()
@@ -63,7 +64,8 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 	val := ak.cache.Get(accessTokenCacheKey)
 	if val != nil {
 		accessToken = val.(string)
-		return
+
+		return accessToken, nil
 	}
 
 	data := reqdata{
@@ -74,19 +76,21 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 
 	resData, err := ak.GetTokenFromServer(&data)
 	if err != nil {
-		return
+		return "", fmt.Errorf("get token from server wrong:%w", err)
 	}
 
 	resAccessToken := resData.Result
 
-	expires := resAccessToken.TimeExpire - 1500
+	expires := resAccessToken.TimeExpire - 500
 	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.Token, time.Duration(expires)*time.Second)
+
 	if err != nil {
-		return
+		return "", fmt.Errorf("set token to cache wrong:%w", err)
 	}
+
 	accessToken = resAccessToken.Token
-	// go ak.GetQueryFromServer(accessToken)
-	return
+
+	return accessToken, nil
 }
 
 // GetTokenFromServer 强制从yeta服务器获取token
