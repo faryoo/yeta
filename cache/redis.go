@@ -33,16 +33,18 @@ func NewRedis(opts *RedisOpts, dialOpts ...redis.DialOption) *Redis {
 				redis.DialDatabase(opts.Database),
 				redis.DialPassword(opts.Password),
 			}...)
-			return redis.Dial("tcp", opts.Host, dialOpts...)
+			return redis.Dial("tcp", opts.Host, dialOpts...) //nolint
 		},
 		TestOnBorrow: func(conn redis.Conn, t time.Time) error {
 			if time.Since(t) < time.Minute {
 				return nil
 			}
 			_, err := conn.Do("PING")
+
 			return err
 		},
 	}
+
 	return &Redis{pool}
 }
 

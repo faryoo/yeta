@@ -12,15 +12,15 @@ type ResQuery struct {
 
 type Query struct {
 	Urls       []Urls   `json:"urls"`
-	RobotTotal int      `json:"robotTotal"`
+	RobotTotal int      `json:"robotTotal"` //nolint
 	Voices     []Voices `json:"voices"`
 	Robots     []Robots `json:"robots"`
 	Lines      []Lines  `json:"lines"`
 }
 
 type Urls struct {
-	Url       string `json:"url"`
-	UrlModule string `json:"url_module"`
+	URL       string `json:"url"`
+	URLModule string `json:"url_module"`
 }
 
 type Voices struct {
@@ -35,9 +35,9 @@ type Robots struct {
 	CreateName  interface{} `json:"create_name"`
 	CreatePhone interface{} `json:"create_phone"`
 	Deleted     int         `json:"deleted"`
-	RobotId     string      `json:"robot_id"`
+	RobotID     string      `json:"robot_id"`
 	RobotName   string      `json:"robot_name"`
-	RobotUuid   string      `json:"robot_uuid"`
+	RobotUUiD   string      `json:"robot_uuid"` //nolint
 	Status      int         `json:"status"`
 	TimeCreate  int64       `json:"time_create"`
 	TimeUpdate  int64       `json:"time_update"`
@@ -70,7 +70,7 @@ type ResCreate struct {
 }
 
 type Create struct {
-	TaskId string `json:"task_id"`
+	TaskID string `json:"task_id"`
 }
 
 type ResInsert struct {
@@ -128,5 +128,5 @@ type ResFailed struct {
 }
 
 type Failed struct {
-	Url []string `json:"url"`
+	URL []string `json:"url"`
 }

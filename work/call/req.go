@@ -1,5 +1,6 @@
 package call
 
+//nolint
 type ReqQuery struct {
 	Type      int `json:"type"`
 	PageSize  int `json:"pageSize"`
@@ -8,7 +9,7 @@ type ReqQuery struct {
 
 type ReqCallOut struct {
 	LineNum    string     `json:"line_num,omitempty"`
-	RobotId    string     `json:"robot_id,omitempty"`
+	RobotID    string     `json:"robot_id,omitempty"`
 	CallColumn []string   `json:"call_column"`
 	CallList   [][]string `json:"call_list"`
 	VoiceCode  string     `json:"voice_code"`
@@ -18,7 +19,7 @@ type ReqCallOut struct {
 type ReqCreate struct {
 	TaskName       string   `json:"task_name"`
 	LineNum        string   `json:"line_num"`
-	RobotId        string   `json:"robot_id"`
+	RobotID        string   `json:"robot_id"`
 	RecallCount    int      `json:"recall_count"`
 	TimeRecallWait int      `json:"time_recall_wait"`
 	TimeRange      []string `json:"time_range"`
@@ -27,13 +28,13 @@ type ReqCreate struct {
 }
 
 type ReqInsert struct {
-	TaskId     string     `json:"task_id"`
+	TaskID     string     `json:"task_id"`
 	CallColumn []string   `json:"call_column"`
 	CallList   [][]string `json:"call_list"`
 }
 
 type TaskID struct {
-	TaskId string `json:"task_id"`
+	TaskID string `json:"task_id"`
 }
 
 type ReqTaskQuery struct {

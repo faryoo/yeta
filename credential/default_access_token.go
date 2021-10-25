@@ -12,7 +12,7 @@ import (
 
 const (
 	// AccessTokenURL yeta获取access_token的接口
-	yetaAccessTokenURL = "https://www.xfyeta.com/openapi/oauth/v1/token"
+	yetaAccessTokenURL = "/openapi/oauth/v1/token"
 	CacheKeyWorkPrefix = "goyeta_work_"
 )
 
@@ -34,6 +34,7 @@ type reqdata struct {
 
 // WorkAccessToken yeta_AccessToken 获取
 type WorkAccessToken struct {
+	URL             string
 	AppKey          string
 	AppSecret       string
 	cacheKeyPrefix  string
@@ -42,8 +43,9 @@ type WorkAccessToken struct {
 }
 
 // NewWorkAccessToken new WorkAccessToken
-func NewWorkAccessToken(corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
+func NewWorkAccessToken(url, corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
 	return &WorkAccessToken{
+		URL:             url,
 		AppKey:          corpID,
 		AppSecret:       corpSecret,
 		cache:           cache,
@@ -70,7 +72,7 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 	}
 	// cache失效，从yeta服务器获取
 
-	resData, err := GetTokenFromServer(&data)
+	resData, err := ak.GetTokenFromServer(&data)
 	if err != nil {
 		return
 	}
@@ -83,15 +85,15 @@ func (ak *WorkAccessToken) GetAccessToken() (accessToken string, err error) {
 		return
 	}
 	accessToken = resAccessToken.Token
-	//go ak.GetQueryFromServer(accessToken)
+	// go ak.GetQueryFromServer(accessToken)
 	return
 }
 
 // GetTokenFromServer 强制从yeta服务器获取token
-func GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
+func (ak *WorkAccessToken) GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
 	var body []byte
 
-	body, err = util.PostJSON(yetaAccessTokenURL, data)
+	body, err = util.PostJSON(ak.URL+yetaAccessTokenURL, data)
 	if err != nil {
 		return
 	}
@@ -106,7 +108,7 @@ func GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
 	return
 }
 
-//func (ak *WorkAccessToken)GetQueryFromServer(token string)(){
+// func (ak *WorkAccessToken)GetQueryFromServer(token string)(){
 //	accessQueryCacheKey := fmt.Sprintf("%s_query_%s", ak.cacheKeyPrefix, ak.AppKey)
 //	type Query struct{
 //		Type int `json:"type"`
@@ -132,4 +134,4 @@ func GetTokenFromServer(data *reqdata) (resAccessToken *ResToken, err error) {
 //	if err != nil {
 //		return
 //	}
-//}
+// }
