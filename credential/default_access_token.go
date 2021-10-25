@@ -43,7 +43,7 @@ type WorkAccessToken struct {
 }
 
 // NewWorkAccessToken new WorkAccessToken
-func NewWorkAccessToken(url, voiceURL, corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
+func NewWorkAccessToken(url, corpID, corpSecret, cacheKeyPrefix string, cache cache.Cache) AccessTokenHandle {
 	return &WorkAccessToken{
 		URL:             url,
 		AppKey:          corpID,
