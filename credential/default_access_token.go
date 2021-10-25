@@ -85,7 +85,7 @@ func (ak *WorkAccessToken) GetAccessToken() (string, error) {
 	err = ak.cache.Set(accessTokenCacheKey, resAccessToken.Token, time.Duration(expires)*time.Second)
 
 	if err != nil {
-		return "", fmt.Errorf("set token to cache wrong:%w", err)
+		return "", fmt.Errorf("set token to cache wrong:%w,time:%d", err, time.Duration(expires)*time.Second)
 	}
 
 	accessToken = resAccessToken.Token
